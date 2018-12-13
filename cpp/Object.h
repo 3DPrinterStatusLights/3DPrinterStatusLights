@@ -7,6 +7,7 @@
 #include <fstream>
 #include <streambuf>
 
+// Different types that can be stored with a key
 enum Types {
   VALUE = 0,
   ARRAY = 1,
@@ -16,6 +17,7 @@ enum Types {
 class Object;
 static Object *nil = nullptr;
 
+// This class is used to represent a JSON in C++
 class Object {
   private:
     std::string value;

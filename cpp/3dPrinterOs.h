@@ -7,13 +7,22 @@
 #include <string>
 #include "Object.h"
 
+// URL of the web server
 const std::string url = "https://cloud.3dprinteros.com/apiglobal/";
 
+// Used when an error occurs
 Object failure;
 
 class PrinterAPI {
   private:
     std::string username, password, session;
+    /**
+      Sends a POST request to {url} with {data} as parameters
+
+      @param url the url for the post request.
+      @param data parameters for the post request.
+      @return the response from the POST request.
+    */
     std::string post(std::string url, std::string data) {
       char buf[2048];
       std::string res;
@@ -23,6 +32,12 @@ class PrinterAPI {
       return res;
     }
   public:
+    /**
+      Initializes a session with the api.
+
+      @param username the username for login.
+      @param password the password for login.
+    */
     PrinterAPI(std::string username, std::string password): username(username), password(password), session("") {
       static bool first = true;
       if (first) {
@@ -31,9 +46,17 @@ class PrinterAPI {
       }
       this->login();
     }
+    /**
+      @return the session key.
+    */
     std::string getSession() {
       return this->session;
     }
+    /**
+      Sends a POST request to login to the api.
+
+      @return a bool representing if the login was successful.
+    */
     bool login() {
       Object response = Object::fromString(this->post(url + "login", "username=" + this->username + "&password=" + this->password), 0);
       if (response["result"].asBool()) {
@@ -42,6 +65,11 @@ class PrinterAPI {
       }
       return false;
     }
+    /**
+      Sends a POST request to gather the printer information.
+
+      @return the response from the POST request.
+    */
     Object getPrinterState() {
       Object response = Object::fromString(this->post(url + "get_organization_printers_list", "session=" + this->session), 0);
       if (response["result"].asBool()) {
