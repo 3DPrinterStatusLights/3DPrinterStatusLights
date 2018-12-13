@@ -21,4 +21,4 @@
 ### Software
 * The lights are controlled using the PIGPIO C++ library
 * Status data is pulled from a pre-existing cloud service called 3D Printer OS
-* Data from 3D Printer OS is retrieved with in a JSON format from their REST API
+* Data from 3D Printer OS is retrieved within a JSON format from their REST API
